@@ -4,4 +4,5 @@ project(PracticalCalcDesign)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(PracticalCalcDesign main.cpp
-        Utilities/Observer.m.cpp)
+        Utilities/Observer.m.cpp
+        Utilities/Exception.m.cpp)

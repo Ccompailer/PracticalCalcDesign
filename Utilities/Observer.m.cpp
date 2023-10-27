@@ -15,18 +15,18 @@ public:
     explicit Observer(string_view name);
     virtual ~Observer() = default;
 
-    void notify(const any& data);
-    const string& name() const { return _observerName; }
+    void Notify(const any& data);
+    const string& Name() const { return _observerName; }
 
 private:
-    virtual  void notifyImpl(const any& data) = 0;
+    virtual  void NotifyImpl(const any& data) = 0;
 
     string _observerName;
 };
 
 Observer::Observer(std::string_view name) : _observerName(name) { }
 
-void Observer::notify(const std::any& data) {
-    notifyImpl(data);
+void Observer::Notify(const std::any& data) {
+    NotifyImpl(data);
     return;
 }
