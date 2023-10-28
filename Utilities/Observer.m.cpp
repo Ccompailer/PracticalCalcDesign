@@ -28,5 +28,4 @@ Observer::Observer(std::string_view name) : _observerName(name) { }
 
 void Observer::Notify(const std::any& data) {
     NotifyImpl(data);
-    return;
 }
