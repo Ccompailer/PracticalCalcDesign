@@ -109,11 +109,11 @@ unique_ptr<Observer> Publisher::Detach(
     return temp;
 }
 
-void Publisher::Raise(const string &eventName) const {
+void Publisher::Raise(const string& eventName) const {
     Raise(eventName, any{});
 }
 
-void Publisher::Raise(const string &eventName, any data) const {
+void Publisher::Raise(const string& eventName, any data) const {
     const auto& obsList = FindChackedEvent(eventName)->second;
     ranges::for_each(
         views::values(obsList),
