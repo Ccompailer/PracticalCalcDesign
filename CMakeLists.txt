@@ -8,4 +8,5 @@ add_executable(PracticalCalcDesign main.cpp
         Utilities/Exception.m.cpp
         Utilities/Publisher.m.cpp
         Backend/Stack.m.cpp
-        Utilities/Utilities.m.cpp)
+        Utilities/Utilities.m.cpp
+        Backend/Command.m.cpp)

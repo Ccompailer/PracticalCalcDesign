@@ -4,7 +4,7 @@ module;
 #include <string>
 #include <deque>
 
-export module Calc:Stack;
+export module CalcBackend:Stack;
 import CalcUtilities;
 
 using std::string;
