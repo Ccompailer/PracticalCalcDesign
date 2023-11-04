@@ -62,3 +62,49 @@ private:
     double _next;
     double _top;
 };
+
+class UnaryCommand : public Command
+{
+public:
+    virtual ~UnaryCommand() = default;
+
+protected:
+    void checkPreconditionsImp() const override;
+
+    UnaryCommand() = default;
+    UnaryCommand(const UnaryCommand&);
+
+private:
+    UnaryCommand(UnaryCommand&&) = delete;
+    UnaryCommand& operator=(UnaryCommand&) = delete;
+    UnaryCommand& operator=(UnaryCommand&&) = delete;
+
+    void executeImp() noexcept final override;
+    void undoImp() noexcept final override;
+
+    virtual double unaryOperation(double top) const noexcept = 0;
+
+
+    double _top;
+};
+
+class PluginCommand : public Command
+{
+public:
+    virtual ~PluginCommand() = default;
+
+private:
+    virtual const char* checkPluginPreconditions() const noexcept = 0;
+    virtual PluginCommand* clonePluginImp() const noexcept = 0;
+
+    void checkPreconditionsImp() const override final;
+    PluginCommand* cloneImp() const override final;
+};
+
+class BinaryCommandAlternative : public Command
+{
+    using BinaryCommandOp = double(double, double);
+public:
+    BinaryCommandAlternative(string_view help, std::function<BinaryCommandOp> f);
+    ~BinaryCommandAlternative() = default;
+};
