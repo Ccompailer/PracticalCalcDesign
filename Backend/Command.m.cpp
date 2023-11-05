@@ -24,7 +24,7 @@ public:
 
 protected:
     Command();
-    Command(Command&);
+    Command(const Command&);
 
 private:
     virtual void checkPreconditionsImp() const;
@@ -143,10 +143,3 @@ inline auto MakeCommandPtr(Command* ptr)
 {
     return CommandPtr { ptr, &CommandDeleter };
 }
-
-
-
-
-
-
-

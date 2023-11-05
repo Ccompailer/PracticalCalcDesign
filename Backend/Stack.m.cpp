@@ -3,8 +3,9 @@ module;
 #include <vector>
 #include <string>
 #include <deque>
+#include "../Utilities/Exception.h"
 
-export module CalcBackend:Stack;
+export module CalcBackend_Stack;
 import CalcUtilities;
 
 using std::string;
@@ -93,6 +94,9 @@ double Stack::Pop(bool suppressChangeEvent) {
             Stack::StackError(),
             StackErrorData{ StackErrorData::ErrorConditions::Empty }
         );
+        throw Exception {
+            StackErrorData::Message(StackErrorData::ErrorConditions::Empty)
+        };
     }
     else
     {
@@ -113,6 +117,9 @@ void Stack::SwapTop() {
             Stack::StackError(),
             StackErrorData{ StackErrorData::ErrorConditions::TooFewArguments }
         );
+        throw Exception {
+            StackErrorData::Message(StackErrorData::ErrorConditions::TooFewArguments)
+        };
     }
     else
     {

@@ -7,12 +7,12 @@ module;
 #include <ranges>
 #include <format>
 #include <algorithm>
+#include "../Utilities/Exception.h"
 #include <unordered_map>
 
 export module CalcUtilities:Publisher;
 
 import :Observer;
-import :Exception;
 
 using std::string;
 using std::vector;
