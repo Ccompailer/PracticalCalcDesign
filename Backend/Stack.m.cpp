@@ -5,7 +5,7 @@ module;
 #include <deque>
 #include "../Utilities/Exception.h"
 
-export module CalcBackend:Stack;
+export module CalcBackend_Stack;
 import CalcUtilities;
 
 using std::string;
