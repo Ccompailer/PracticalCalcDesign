@@ -84,7 +84,6 @@ private:
 
     virtual double unaryOperation(double top) const noexcept = 0;
 
-
     double _top;
 };
 
@@ -101,10 +100,53 @@ private:
     PluginCommand* cloneImp() const override final;
 };
 
-class BinaryCommandAlternative : public Command
+class BinaryCommandAlternative final : public Command
 {
     using BinaryCommandOp = double(double, double);
+
 public:
     BinaryCommandAlternative(string_view help, std::function<BinaryCommandOp> f);
     ~BinaryCommandAlternative() = default;
+
+private:
+    BinaryCommandAlternative(BinaryCommandAlternative&&) = delete;
+    BinaryCommandAlternative& operator=(BinaryCommandAlternative&) = delete;
+    BinaryCommandAlternative& operator=(BinaryCommandAlternative&&) = delete;
+
+    void checkPreconditionsImp() const override;
+    const char * helpMessageImp() const noexcept override;
+    void executeImp() noexcept override;
+    void undoImp() noexcept override;
+    BinaryCommandAlternative* cloneImp() const override;
+
+    BinaryCommandAlternative(const BinaryCommandAlternative&);
+
+    double _top;
+    double _next;
+    string helpMessage;
+    std::function<BinaryCommandOp> _command;
 };
+
+inline void CommandDeleter(Command* ptr) {
+    if(ptr)
+        ptr->deallocate();
+}
+
+using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
+
+template<typename T, typename... Args>
+auto MakeCommandPtr(Args&&... args) requires std::derived_from<T, Command> {
+    return CommandPtr { new T { std::forward<Args>(args)... }, &CommandDeleter };
+}
+
+inline auto MakeCommandPtr(Command* ptr)
+{
+    return CommandPtr { ptr, &CommandDeleter };
+}
+
+
+
+
+
+
+
