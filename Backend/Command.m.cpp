@@ -123,7 +123,7 @@ private:
 
     double _top;
     double _next;
-    string helpMessage;
+    string _helpMessage;
     std::function<BinaryCommandOp> _command;
 };
 
