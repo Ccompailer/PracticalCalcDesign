@@ -109,14 +109,37 @@ private:
     HELP("Swap the top two elements of the stack");
 };
 
+export class DropTopOfStack : public Command
+{
+public:
+    DropTopOfStack() = default;
+    ~DropTopOfStack() = default;
 
+    explicit DropTopOfStack(const DropTopOfStack& rhs)
+    : Command {rhs}
+    , _droppedNumber(rhs._droppedNumber)
+    { }
 
+private:
+    DropTopOfStack(DropTopOfStack&&) = delete;
+    DropTopOfStack& operator=(const DropTopOfStack&) = delete;
+    DropTopOfStack& operator=(DropTopOfStack&&) = delete;
 
+    void checkPreconditionsImp() const override {
+        if(Stack::Instance().Size() < 1)
+            throw Exception{"Stack must have 1 element"};
+    }
 
+    void executeImp() noexcept override {
+        _droppedNumber = Stack::Instance().Pop();
+    }
 
+    void undoImp() noexcept override {
+        Stack::Instance().Push(_droppedNumber);
+    }
 
+    CLONE(DropTopOfStack);
+    HELP("Drop the top element from the stack");
 
-
-
-
-
+    double _droppedNumber;
+};
