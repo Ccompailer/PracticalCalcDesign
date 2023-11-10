@@ -4,6 +4,7 @@ module;
 #include <stack>
 #include <cassert>
 #include <iostream>
+#include "../Utilities/Exception.h"
 #include <vector>
 #include <cmath>
 
@@ -74,6 +75,48 @@ private:
 
     double _number;
 };
+
+export class SwapTopOfStack : public Command
+{
+public:
+    SwapTopOfStack() = default;
+
+    explicit SwapTopOfStack(const SwapTopOfStack& rhs)
+    : Command {rhs}
+    { }
+
+    ~SwapTopOfStack() = default;
+
+private:
+    SwapTopOfStack(SwapTopOfStack&&) = delete;
+    SwapTopOfStack& operator=(const SwapTopOfStack&) = delete;
+    SwapTopOfStack& operator=(SwapTopOfStack&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        if(Stack::Instance().Size() < 2)
+            throw Exception{"Stack must have 2 elements"};
+    }
+
+    void executeImp() noexcept override {
+        Stack::Instance().SwapTop();
+    }
+
+    void undoImp() noexcept override {
+        Stack::Instance().SwapTop();
+    }
+
+    CLONE(SwapTopOfStack);
+    HELP("Swap the top two elements of the stack");
+};
+
+
+
+
+
+
+
+
+
 
 
 
