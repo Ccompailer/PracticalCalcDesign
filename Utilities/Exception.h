@@ -1,8 +1,4 @@
-module;
-
 #include <string>
-
-export module CalcUtilities:Exception;
 
 using std::string;
 using std::string_view;
