@@ -36,7 +36,7 @@ private:
     Command& operator=(Command&&) = delete;
 };
 
-class BinaryCommand : public Command
+export class BinaryCommand : public Command
 {
 public:
     virtual ~BinaryCommand() = default;
@@ -61,7 +61,7 @@ private:
     double _top;
 };
 
-class UnaryCommand : public Command
+export class UnaryCommand : public Command
 {
 public:
     virtual ~UnaryCommand() = default;
@@ -85,7 +85,7 @@ private:
     double _top;
 };
 
-class PluginCommand : public Command
+export class PluginCommand : public Command
 {
 public:
     virtual ~PluginCommand() = default;
@@ -98,7 +98,7 @@ private:
     PluginCommand* cloneImp() const override final;
 };
 
-class BinaryCommandAlternative final : public Command
+export class BinaryCommandAlternative final : public Command
 {
     using BinaryCommandOp = double(double, double);
 

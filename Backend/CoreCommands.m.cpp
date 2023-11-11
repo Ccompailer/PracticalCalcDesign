@@ -143,3 +143,54 @@ private:
 
     double _droppedNumber;
 };
+
+export class ClearStack : public Command
+{
+public:
+    ClearStack() = default;
+    ~ClearStack() = default;
+
+    explicit ClearStack(const ClearStack& rhs)
+    : Command {rhs}
+    , _stack(rhs._stack)
+    { }
+
+private:
+    ClearStack(ClearStack&&) = delete;
+    ClearStack& operator=(const ClearStack&) = delete;
+    ClearStack& operator=(ClearStack&&) = delete;
+
+    void executeImp() noexcept override {
+        const auto n = Stack::Instance().Size();
+
+        if(n == 0)
+            return;
+
+        for (auto i = 0u; i < n - 1; ++i) {
+            _stack.push(Stack::Instance().Pop(true));
+        }
+
+        _stack.push(Stack::Instance().Pop(false));
+    }
+
+    void undoImp() noexcept override {
+        const auto n = _stack.size();
+
+        if(n == 0)
+            return;
+
+        for(auto i = 0u; i < n - 1; ++i) {
+            Stack::Instance().Push(_stack.top(), true);
+        }
+
+        Stack::Instance().Push(_stack.top(), false);
+    }
+
+    CLONE(ClearStack);
+    HELP("Clear the stack");
+
+    std::stack<double> _stack;
+};
+
+
+
