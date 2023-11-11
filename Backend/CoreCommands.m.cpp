@@ -192,5 +192,26 @@ private:
     std::stack<double> _stack;
 };
 
+export class Add : public BinaryCommand
+{
+public:
+    Add() = default;
+    ~Add() = default;
 
+    explicit Add(const Add& rhs)
+    : BinaryCommand {rhs}
+    { }
 
+private:
+    Add(Add&&) = delete;
+    Add& operator=(const Add&) = delete;
+    Add& operator=(Add&&) = delete;
+
+    double binaryOperation(double next, double top)
+    const noexcept override {
+        return next + top;
+    }
+
+    CLONE(Add);
+    HELP("Replace first two elements of the stack with their sum");
+};
