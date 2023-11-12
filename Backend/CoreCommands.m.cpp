@@ -271,7 +271,33 @@ private:
     HELP("Replace first two elements of the stack with their quotient";)
 };
 
+export class Power : public BinaryCommand
+{
+public:
+    Power() = default;
+    ~Power() = default;
 
+    explicit Power(const Power& rhs)
+    : BinaryCommand {rhs}
+    { }
+
+private:
+    Power(Power&&) = delete;
+    Power& operator=(Power&&) = delete;
+    Power& operator=(const Power&) = delete;
+
+    void checkPreconditionsImp() const override {
+        BinaryCommand::checkPreconditionsImp();
+    }
+
+    double binaryOperation(double next, double top)
+    const noexcept override {
+        return std::pow(next, top);
+    }
+
+    CLONE(Power);
+    HELP("Replace first two elements of the stack, y, x, with y^x. Note, x is top of stack");
+};
 
 
 
