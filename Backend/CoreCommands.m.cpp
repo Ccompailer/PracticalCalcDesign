@@ -288,6 +288,9 @@ private:
 
     void checkPreconditionsImp() const override {
         BinaryCommand::checkPreconditionsImp();
+
+        if(auto v = Stack::Instance().GetElements(2); v[0] < 0 || v[1] < 0)
+            throw Exception{"Invalid result"};
     }
 
     double binaryOperation(double next, double top)
@@ -299,7 +302,36 @@ private:
     HELP("Replace first two elements of the stack, y, x, with y^x. Note, x is top of stack");
 };
 
+export class Root : public BinaryCommand
+{
+public:
+    Root() = default;
+    ~Root() = default;
 
+    explicit Root(const Root& rhs)
+    : BinaryCommand {rhs}
+    { }
+
+private:
+    Root(Root&&) = delete;
+    Root& operator=(const Root&) = delete;
+    Root& operator=(Root&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        BinaryCommand::checkPreconditionsImp();
+
+        if(auto v = Stack::Instance().GetElements(2); v[0] < 0 || v[1] < 0)
+            throw Exception{"Invalid result"};
+    }
+
+    double binaryOperation(double next, double top)
+    const noexcept override {
+        return std::pow(next, 1. / top);
+    }
+
+    CLONE(Root);
+    HELP("Replace first two elements of the stack, y, x, with x root of y. Note, x is top of stack")
+};
 
 
 
