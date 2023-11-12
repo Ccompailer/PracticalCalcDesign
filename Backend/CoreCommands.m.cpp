@@ -215,3 +215,37 @@ private:
     CLONE(Add);
     HELP("Replace first two elements of the stack with their sum");
 };
+
+export class Subtract : public BinaryCommand
+{
+public:
+    Subtract() = default;
+    ~Subtract() = default;
+
+    explicit Subtract(const Subtract& rhs)
+    : BinaryCommand {rhs}
+    { }
+
+private:
+    Subtract(Subtract&&) = delete;
+    Subtract& operator=(const Subtract&) = delete;
+    Subtract& operator=(Subtract&&) = delete;
+
+    double binaryOperation(double next, double top)
+    const noexcept override {
+        return next - top;
+    }
+
+    CLONE(Subtract);
+    HELP("Replace first two elements of the stack with their difference");
+};
+
+
+
+
+
+
+
+
+
+
