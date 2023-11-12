@@ -240,6 +240,37 @@ private:
     HELP("Replace first two elements of the stack with their difference");
 };
 
+export class Divide : public BinaryCommand
+{
+public:
+    Divide() = default;
+    ~Divide() = default;
+
+    explicit Divide(const Divide& rhs)
+    : BinaryCommand {rhs}
+    { }
+
+private:
+    Divide(Divide&&) = delete;
+    Divide& operator=(const Divide&) = delete;
+    Divide& operator=(Divide&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        BinaryCommand::checkPreconditionsImp();
+
+        if(auto v = Stack::Instance().GetElements(1); v.front() == 0. || v.front() == -0.)
+            throw Exception{"Division by zero"};
+    }
+
+    double binaryOperation(double next, double top)
+    const noexcept override {
+        return next / top;
+    }
+
+    CLONE(Divide);
+    HELP("Replace first two elements of the stack with their quotient";)
+};
+
 
 
 
