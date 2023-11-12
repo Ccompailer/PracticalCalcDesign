@@ -333,6 +333,30 @@ private:
     HELP("Replace first two elements of the stack, y, x, with x root of y. Note, x is top of stack")
 };
 
+export class Sine : public UnaryCommand
+{
+public:
+    Sine() = default;
+    ~Sine() = default;
+
+    explicit Sine(const Sine& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Sine(Sine&&) = delete;
+    Sine& operator=(const Sine&) = delete;
+    Sine& operator=(Sine&&) = delete;
+
+    double unaryOperation(double top)
+    const noexcept override {
+        return std::sin(top);
+    }
+
+    CLONE(Sine);
+    HELP("Replace the first element x, on the stack with sin(x). x must be in radians");
+};
+
 
 
 
