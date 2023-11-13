@@ -357,8 +357,26 @@ private:
     HELP("Replace the first element x, on the stack with sin(x). x must be in radians");
 };
 
+export class Cosine : public UnaryCommand
+{
+public:
+    Cosine() = default;
+    ~Cosine() = default;
 
+    explicit Cosine(const Cosine& rhs)
+    : UnaryCommand {rhs}
+    { }
 
+private:
+    Cosine(Cosine&&) = delete;
+    Cosine& operator=(const Cosine&) = delete;
+    Cosine& operator=(Cosine&&) = delete;
 
+    double unaryOperation(double top)
+    const noexcept override {
+        return std::cos(top);
+    }
 
-
+    CLONE(Cosine);
+    HELP("Replace the first element, x, on the stack with cos(x). x must be in radians");
+};
