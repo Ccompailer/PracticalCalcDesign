@@ -380,3 +380,41 @@ private:
     CLONE(Cosine);
     HELP("Replace the first element, x, on the stack with cos(x). x must be in radians");
 };
+
+export class Tangent : public UnaryCommand
+{
+public:
+    Tangent() = default;
+    ~Tangent() = default;
+
+    explicit Tangent(const Tangent& rhs)
+    : UnaryCommand {ths}
+    { }
+
+private:
+    Tangent(Tangent&&) = delete;
+    Tangent& operator=(const Tangent&) = delete;
+    Tangent& operator=(Tangent&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        UnaryCommand::checkPreconditionsImp();
+
+        auto v = Stack::Instance().GetElements(1);
+        double d { v.back() + M_PI / 2. };
+        double r { std::fabs(d) / std::fabs(M_PI) };
+        int w { static_cast<int>(std::floor(r + eps)) };
+
+        r = r - w;
+
+        if(r < eps && r > -eps)
+            throw Exception{"Infinite result"};
+    }
+
+    double unaryOperation(double top)
+    const noexcept override {
+        return std::tan(top);
+    }
+
+    CLONE(Tangent);
+    HELP("Replace the first element, x, on the stack with tan(x). x must be in radians");
+};
