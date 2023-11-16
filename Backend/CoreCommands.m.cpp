@@ -419,7 +419,7 @@ private:
     HELP("Replace the first element, x, on the stack with tan(x). x must be in radians");
 };
 
-export class Arcsine : UnaryCommand {
+export class Arcsine : public UnaryCommand {
 public:
     Arcsine() = default;
     ~Arcsine() = default;
@@ -446,4 +446,28 @@ private:
     HELP("Replace the first element, x, on the stack with arcsin(x). Returns result in radians");
 };
 
+export class Arccosine : public UnaryCommand{
+public:
+    Arccosine() = default;
+    ~Arccosine() = default;
 
+    explicit Arccosine(const Arccosine& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Arccosine(Arccosine&&) = delete;
+    Arccosine& operator=(const Arccosine&) = delete;
+    Arccosine& operator=(Arccosine&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        UnaryCommand::checkPreconditionsImp();
+    }
+
+    double unaryOperation(double top) const noexcept override {
+        return std::acos(top);
+    }
+
+    CLONE(Arccosine);
+    HELP("Replace the first element, x, on the stack with arccos(x). Returns result in radians");
+};
