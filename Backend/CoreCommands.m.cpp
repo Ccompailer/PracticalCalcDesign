@@ -388,7 +388,7 @@ public:
     ~Tangent() = default;
 
     explicit Tangent(const Tangent& rhs)
-    : UnaryCommand {ths}
+    : UnaryCommand {rhs}
     { }
 
 private:
@@ -418,3 +418,32 @@ private:
     CLONE(Tangent);
     HELP("Replace the first element, x, on the stack with tan(x). x must be in radians");
 };
+
+export class Arcsine : UnaryCommand {
+public:
+    Arcsine() = default;
+    ~Arcsine() = default;
+
+    explicit Arcsine(const Arcsine& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Arcsine(Arcsine&&) = delete;
+    Arcsine& operator=(const Arcsine&) =delete;
+    Arcsine& operator=(Arcsine&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        UnaryCommand::checkPreconditionsImp();
+        // Need add a little bit changes;
+    }
+
+    double unaryOperation(double top) const noexcept override {
+        return std::asin(top);
+    }
+
+    CLONE(Arcsine);
+    HELP("Replace the first element, x, on the stack with arcsin(x). Returns result in radians");
+};
+
+
