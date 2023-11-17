@@ -493,3 +493,25 @@ private:
     CLONE(Arctangent);
     HELP("Replace the first element, x, on the stack with arctan(x). Returns result in radians");
 };
+
+export class Negate : public UnaryCommand {
+public:
+    Negate() = default;
+    ~Negate() = default;
+
+    explicit Negate(const Negate& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Negate(Negate&&) = delete;
+    Negate& operator=(const Negate&) = delete;
+    Negate& operator=(Negate&&) = delete;
+
+    double unaryOperation(double top) const noexcept override {
+        return -top;
+    }
+
+    CLONE(Negate);
+    HELP("Negates the top number on the stack");
+};
