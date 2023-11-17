@@ -12,4 +12,6 @@ add_executable(PracticalCalcDesign main.cpp
         Backend/Command.m.cpp
         Backend/Command.cpp
         Backend/CommandFactory.m.cpp
-        Backend/CoreCommands.m.cpp)
+        Backend/CoreCommands.m.cpp
+        Backend/CommandInterpreter.m.cpp
+        Backend/CommandDispatcher.m.cpp)
