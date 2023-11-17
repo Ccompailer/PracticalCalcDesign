@@ -471,3 +471,25 @@ private:
     CLONE(Arccosine);
     HELP("Replace the first element, x, on the stack with arccos(x). Returns result in radians");
 };
+
+export class Arctangent : public UnaryCommand {
+public:
+    Arctangent() = default;
+    ~Arctangent() = default;
+
+    explicit Arctangent(const Arctangent& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Arctangent(Arctangent&&) = delete;
+    Arctangent& operator=(const Arctangent&) = delete;
+    Arctangent& operator=(Arctangent&&) = delete;
+
+    double unaryOperation(double top) const noexcept override {
+        return std::atan(top);
+    }
+
+    CLONE(Arctangent);
+    HELP("Replace the first element, x, on the stack with arctan(x). Returns result in radians");
+};
