@@ -515,3 +515,35 @@ private:
     CLONE(Negate);
     HELP("Negates the top number on the stack");
 };
+
+export class Duplicate : public Command {
+public:
+    Duplicate() = default;
+    ~Duplicate() = default;
+
+    explicit Duplicate(const Duplicate& rhs)
+    : Command {rhs}
+    { }
+
+private:
+    Duplicate(Duplicate&&) = delete;
+    Duplicate& operator=(const Duplicate&) = delete;
+    Duplicate& operator=(Duplicate&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        if (Stack::Instance().Size() < 1)
+            throw Exception{"Stack must have 1 element"};
+    }
+
+    void executeImp() noexcept override {
+        auto v = Stack::Instance().GetElements(1);
+        Stack::Instance().Push(v.back());
+    }
+
+    void undoImp() noexcept override {
+        Stack::Instance().Pop();
+    }
+
+    CLONE(Duplicate);
+    HELP("Duplicates the top number on the stack");
+};
