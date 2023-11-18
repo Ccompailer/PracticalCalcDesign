@@ -66,6 +66,7 @@ Publisher::Events::const_iterator Publisher::FindChackedEvent(const string& even
             std::format("Publisher doesn't support this event '{}'", eventName)
         };
     }
+
     return ev;
 }
 
