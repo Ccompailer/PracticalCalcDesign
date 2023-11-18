@@ -471,3 +471,79 @@ private:
     CLONE(Arccosine);
     HELP("Replace the first element, x, on the stack with arccos(x). Returns result in radians");
 };
+
+export class Arctangent : public UnaryCommand {
+public:
+    Arctangent() = default;
+    ~Arctangent() = default;
+
+    explicit Arctangent(const Arctangent& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Arctangent(Arctangent&&) = delete;
+    Arctangent& operator=(const Arctangent&) = delete;
+    Arctangent& operator=(Arctangent&&) = delete;
+
+    double unaryOperation(double top) const noexcept override {
+        return std::atan(top);
+    }
+
+    CLONE(Arctangent);
+    HELP("Replace the first element, x, on the stack with arctan(x). Returns result in radians");
+};
+
+export class Negate : public UnaryCommand {
+public:
+    Negate() = default;
+    ~Negate() = default;
+
+    explicit Negate(const Negate& rhs)
+    : UnaryCommand {rhs}
+    { }
+
+private:
+    Negate(Negate&&) = delete;
+    Negate& operator=(const Negate&) = delete;
+    Negate& operator=(Negate&&) = delete;
+
+    double unaryOperation(double top) const noexcept override {
+        return -top;
+    }
+
+    CLONE(Negate);
+    HELP("Negates the top number on the stack");
+};
+
+export class Duplicate : public Command {
+public:
+    Duplicate() = default;
+    ~Duplicate() = default;
+
+    explicit Duplicate(const Duplicate& rhs)
+    : Command {rhs}
+    { }
+
+private:
+    Duplicate(Duplicate&&) = delete;
+    Duplicate& operator=(const Duplicate&) = delete;
+    Duplicate& operator=(Duplicate&&) = delete;
+
+    void checkPreconditionsImp() const override {
+        if (Stack::Instance().Size() < 1)
+            throw Exception{"Stack must have 1 element"};
+    }
+
+    void executeImp() noexcept override {
+        auto v = Stack::Instance().GetElements(1);
+        Stack::Instance().Push(v.back());
+    }
+
+    void undoImp() noexcept override {
+        Stack::Instance().Pop();
+    }
+
+    CLONE(Duplicate);
+    HELP("Duplicates the top number on the stack");
+};
