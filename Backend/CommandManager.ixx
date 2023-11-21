@@ -37,6 +37,4 @@ private:
     CommandManeger(CommandManeger&&) = delete;
     CommandManeger& operator=(const CommandManeger&) = delete;
     CommandManeger& operator=(CommandManeger&&) = delete;
-
-
 };
