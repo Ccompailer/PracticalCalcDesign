@@ -41,6 +41,7 @@ public:
         const string& eventName,
         const string& observerName
     );
+
     set<string> ListEvents() const;
     set<string> ListEventObservers(const string& eventName) const;
 

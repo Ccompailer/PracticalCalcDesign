@@ -130,7 +130,7 @@ inline void CommandDeleter(Command* ptr) {
         ptr->deallocate();
 }
 
-using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
+export using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
 
 template<typename T, typename... Args>
 auto MakeCommandPtr(Args&&... args) requires std::derived_from<T, Command> {
