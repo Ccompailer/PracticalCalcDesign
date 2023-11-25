@@ -10,134 +10,161 @@ using std::string_view;
 using std::string;
 using std::unique_ptr;
 
-export class Command
-{
-public:
-    Command* clone() const;
-    virtual ~Command() = default;
-    void execute();
-    void undo();
-    const char* helpMessage() const;
-    virtual void deallocate();
+export namespace CommandModule {
 
-protected:
-    Command();
-    Command(const Command&);
+    class Command {
+    public:
+        Command *clone() const;
 
-private:
-    virtual void checkPreconditionsImp() const;
-    virtual Command* cloneImp() const = 0;
-    virtual void executeImp() noexcept = 0;
-    virtual void undoImp() noexcept = 0;
-    virtual const char* helpMessageImp() const noexcept = 0;
+        virtual ~Command() = default;
 
-    Command(Command&&) = delete;
-    Command& operator=(Command&) = delete;
-    Command& operator=(Command&&) = delete;
-};
+        void execute();
 
-export class BinaryCommand : public Command
-{
-public:
-    virtual ~BinaryCommand() = default;
+        void undo();
 
-protected:
-    void checkPreconditionsImp() const override;
+        const char *helpMessage() const;
 
-    BinaryCommand() = default;
-    BinaryCommand(const BinaryCommand&);
+        virtual void deallocate();
 
-private:
-    BinaryCommand(BinaryCommand&&) = delete;
-    BinaryCommand& operator=(BinaryCommand&) = delete;
-    BinaryCommand& operator=(BinaryCommand&&) = delete;
+    protected:
+        Command();
 
-    void executeImp() noexcept final override;
-    void undoImp() noexcept final override;
+        Command(const Command &);
 
-    virtual double binaryOperation(double next, double top) const noexcept = 0;
+    private:
+        virtual void checkPreconditionsImp() const;
 
-    double _next;
-    double _top;
-};
+        virtual Command *cloneImp() const = 0;
 
-export class UnaryCommand : public Command
-{
-public:
-    virtual ~UnaryCommand() = default;
+        virtual void executeImp() noexcept = 0;
 
-protected:
-    void checkPreconditionsImp() const override;
+        virtual void undoImp() noexcept = 0;
 
-    UnaryCommand() = default;
-    UnaryCommand(const UnaryCommand&);
+        virtual const char *helpMessageImp() const noexcept = 0;
 
-private:
-    UnaryCommand(UnaryCommand&&) = delete;
-    UnaryCommand& operator=(UnaryCommand&) = delete;
-    UnaryCommand& operator=(UnaryCommand&&) = delete;
+        Command(Command &&) = delete;
 
-    void executeImp() noexcept final override;
-    void undoImp() noexcept final override;
+        Command &operator=(Command &) = delete;
 
-    virtual double unaryOperation(double top) const noexcept = 0;
+        Command &operator=(Command &&) = delete;
+    };
 
-    double _top;
-};
+    class BinaryCommand : public Command {
+    public:
+        virtual ~BinaryCommand() = default;
 
-export class PluginCommand : public Command
-{
-public:
-    virtual ~PluginCommand() = default;
+    protected:
+        void checkPreconditionsImp() const override;
 
-private:
-    virtual const char* checkPluginPreconditions() const noexcept = 0;
-    virtual PluginCommand* clonePluginImp() const noexcept = 0;
+        BinaryCommand() = default;
 
-    void checkPreconditionsImp() const override final;
-    PluginCommand* cloneImp() const override final;
-};
+        BinaryCommand(const BinaryCommand &);
 
-export class BinaryCommandAlternative final : public Command
-{
-    using BinaryCommandOp = double(double, double);
+    private:
+        BinaryCommand(BinaryCommand &&) = delete;
 
-public:
-    BinaryCommandAlternative(string_view help, std::function<BinaryCommandOp> f);
-    ~BinaryCommandAlternative() = default;
+        BinaryCommand &operator=(BinaryCommand &) = delete;
 
-private:
-    BinaryCommandAlternative(BinaryCommandAlternative&&) = delete;
-    BinaryCommandAlternative& operator=(BinaryCommandAlternative&) = delete;
-    BinaryCommandAlternative& operator=(BinaryCommandAlternative&&) = delete;
+        BinaryCommand &operator=(BinaryCommand &&) = delete;
 
-    void checkPreconditionsImp() const override;
-    const char * helpMessageImp() const noexcept override;
-    void executeImp() noexcept override;
-    void undoImp() noexcept override;
-    BinaryCommandAlternative* cloneImp() const override;
+        void executeImp() noexcept final override;
 
-    BinaryCommandAlternative(const BinaryCommandAlternative&);
+        void undoImp() noexcept final override;
 
-    double _top;
-    double _next;
-    string _helpMessage;
-    std::function<BinaryCommandOp> _command;
-};
+        virtual double binaryOperation(double next, double top) const noexcept = 0;
 
-inline void CommandDeleter(Command* ptr) {
-    if(ptr)
-        ptr->deallocate();
-}
+        double _next;
+        double _top;
+    };
 
-export using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
+    class UnaryCommand : public Command {
+    public:
+        virtual ~UnaryCommand() = default;
 
-template<typename T, typename... Args>
-auto MakeCommandPtr(Args&&... args) requires std::derived_from<T, Command> {
-    return CommandPtr { new T { std::forward<Args>(args)... }, &CommandDeleter };
-}
+    protected:
+        void checkPreconditionsImp() const override;
 
-inline auto MakeCommandPtr(Command* ptr)
-{
-    return CommandPtr { ptr, &CommandDeleter };
+        UnaryCommand() = default;
+
+        UnaryCommand(const UnaryCommand &);
+
+    private:
+        UnaryCommand(UnaryCommand &&) = delete;
+
+        UnaryCommand &operator=(UnaryCommand &) = delete;
+
+        UnaryCommand &operator=(UnaryCommand &&) = delete;
+
+        void executeImp() noexcept final override;
+
+        void undoImp() noexcept final override;
+
+        virtual double unaryOperation(double top) const noexcept = 0;
+
+        double _top;
+    };
+
+    class PluginCommand : public Command {
+    public:
+        virtual ~PluginCommand() = default;
+
+    private:
+        virtual const char *checkPluginPreconditions() const noexcept = 0;
+
+        virtual PluginCommand *clonePluginImp() const noexcept = 0;
+
+        void checkPreconditionsImp() const override final;
+
+        PluginCommand *cloneImp() const override final;
+    };
+
+    class BinaryCommandAlternative final : public Command {
+        using BinaryCommandOp = double(double, double);
+
+    public:
+        BinaryCommandAlternative(string_view help, std::function<BinaryCommandOp> f);
+
+        ~BinaryCommandAlternative() = default;
+
+    private:
+        BinaryCommandAlternative(BinaryCommandAlternative &&) = delete;
+
+        BinaryCommandAlternative &operator=(BinaryCommandAlternative &) = delete;
+
+        BinaryCommandAlternative &operator=(BinaryCommandAlternative &&) = delete;
+
+        void checkPreconditionsImp() const override;
+
+        const char *helpMessageImp() const noexcept override;
+
+        void executeImp() noexcept override;
+
+        void undoImp() noexcept override;
+
+        BinaryCommandAlternative *cloneImp() const override;
+
+        BinaryCommandAlternative(const BinaryCommandAlternative &);
+
+        double _top;
+        double _next;
+        string _helpMessage;
+        std::function<BinaryCommandOp> _command;
+    };
+
+    inline void CommandDeleter(Command *ptr) {
+        if (ptr)
+            ptr->deallocate();
+    }
+
+    using CommandPtr = unique_ptr<Command, decltype(&CommandDeleter)>;
+
+    template<typename T, typename... Args>
+    auto MakeCommandPtr(Args &&... args) requires std::derived_from<T, Command> {
+        return CommandPtr{new T{std::forward<Args>(args)...}, &CommandDeleter};
+    }
+
+    inline auto MakeCommandPtr(Command *ptr) {
+        return CommandPtr{ptr, &CommandDeleter};
+    }
+
 }
