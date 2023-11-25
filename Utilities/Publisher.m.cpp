@@ -35,12 +35,11 @@ public:
 
     void Attach(
         const string& eventName,
-        unique_ptr<Observer> observer
-    );
+        unique_ptr<Observer> observer);
+
     unique_ptr<Observer> Detach(
         const string& eventName,
-        const string& observerName
-    );
+        const string& observerName);
 
     set<string> ListEvents() const;
     set<string> ListEventObservers(const string& eventName) const;
