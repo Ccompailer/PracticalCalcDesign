@@ -51,15 +51,10 @@ namespace CommandModule {
     class CommandManager::CommandManagerStrategy {
     public:
         virtual ~CommandManagerStrategy() = default;
-
         virtual size_t GetRedoSize() const = 0;
-
         virtual size_t GetUndoSize() const = 0;
-
         virtual void ExecuteCommand(CommandPtr ptr) = 0;
-
         virtual void Undo() = 0;
-
         virtual void Redo() = 0;
     };
 
@@ -67,13 +62,9 @@ namespace CommandModule {
             public CommandManager::CommandManagerStrategy {
     public:
         size_t GetRedoSize() const override { return _redoStack.size(); }
-
         size_t GetUndoSize() const override { return _undoStack.size(); }
-
         void ExecuteCommand(CommandPtr ptr) override;
-
         void Undo() override;
-
         void Redo() override;
 
     private:
@@ -121,18 +112,15 @@ namespace CommandModule {
     class CommandManager::UndoRedoListStrategyVector : public CommandManager::CommandManagerStrategy {
     public:
         UndoRedoListStrategyVector()
-                : _cur{-1},
-                  _undoSize{0},
-                  _redoSize{0} {}
+        : _cur{-1}
+        ,_undoSize{0}
+        ,_redoSize{0}
+        {}
 
         size_t GetUndoSize() const override { return _undoSize; }
-
         size_t GetRedoSize() const override { return _redoSize; }
-
         void ExecuteCommand(CommandPtr ptr) override;
-
         void Undo() override;
-
         void Redo() override;
 
     private:
