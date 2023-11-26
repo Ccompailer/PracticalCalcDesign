@@ -14,6 +14,7 @@ import CalcBackend_Stack;
 import CalcBackend_Command;
 import CalcUtilities;
 
+using namespace CommandModule;
 using std::vector;
 using std::string;
 

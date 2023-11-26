@@ -8,6 +8,7 @@ module CalcBackend_Command;
 import CalcUtilities;
 import CalcBackend_Stack;
 
+using namespace CommandModule;
 using std::string_view;
 
 void Command::execute() {

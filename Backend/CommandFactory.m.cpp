@@ -26,9 +26,20 @@ namespace CommandModule {
         void RegisterCommand(const string& name, CommandPtr ptr);
         CommandPtr DeregisterCommand(const string& name);
         size_t GetNumberCommand() const { _factory.size(); }
-
+        CommandPtr AllocateCommand(const string& name) const;
+        bool HasKey(const string& s) const { return _factory.contains(s); }
+        std::set<string> GetAllCommandsNames() const;
+        string HelpMessage(const string& command) const;
+        void ClearAllCommands() { _factory.clear(); }
 
     private:
+        CommandFactory() = default;
+        ~CommandFactory() = default;
+        CommandFactory(CommandFactory&) = delete;
+        CommandFactory(CommandFactory&&) = delete;
+        CommandFactory& operator=(const CommandFactory&) = delete;
+        CommandFactory& operator=(CommandFactory&&) = delete;
+
         using Factory = unordered_map<string, CommandPtr>;
         Factory _factory;
     };
