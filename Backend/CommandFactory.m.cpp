@@ -103,4 +103,38 @@ namespace CommandModule {
         } else
             return MakeCommandPtr(nullptr);
     }
+
+    CommandFactory& CommandFactory::Instance() {
+        static CommandFactory instance;
+        return instance;
+    }
+
+    export void RegisterCoreCommands(/*UserInterface& ui*/) {
+        auto& cr = CommandFactory::Instance();
+
+        try {
+            cr.RegisterCommand("Swap", MakeCommandPtr<SwapTopOfStack>());
+            cr.RegisterCommand("Drop", MakeCommandPtr<DropTopOfStack>());
+            cr.RegisterCommand("Clear", MakeCommandPtr<ClearStack>());
+            cr.RegisterCommand("+", MakeCommandPtr<Add>());
+            cr.RegisterCommand("-", MakeCommandPtr<Subtract>());
+            cr.RegisterCommand("/", MakeCommandPtr<Divide>());
+            cr.RegisterCommand("Pow", MakeCommandPtr<Power>());
+            cr.RegisterCommand("Root", MakeCommandPtr<Root>());
+            cr.RegisterCommand("Sin", MakeCommandPtr<Sine>());
+            cr.RegisterCommand("Cos", MakeCommandPtr<Cosine>());
+            cr.RegisterCommand("Tan", MakeCommandPtr<Tangent>());
+            cr.RegisterCommand("ArcSin", MakeCommandPtr<Arcsine>());
+            cr.RegisterCommand("ArcCos", MakeCommandPtr<Arccosine>());
+            cr.RegisterCommand("ArcTan", MakeCommandPtr<Arctangent>());
+            cr.RegisterCommand("Neg", MakeCommandPtr<Negate>());
+            cr.RegisterCommand("Dup", MakeCommandPtr<Duplicate>());
+            cr.RegisterCommand("*", MakeCommandPtr<BinaryCommandAlternative>(
+                    "Replace first two elements on the stack with their product",
+                    [](double x, double y) -> double { return x * y; }));
+
+        } catch (Exception& exep) {
+            // ui.PostMessage(e.What());
+        }
+    }
 }
