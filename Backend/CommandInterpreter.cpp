@@ -32,6 +32,5 @@ private:
     bool IsNum(const string&, double& d);
     void HandlCommand();
     void PrintHelp() const;
-
     //2 private field CommandManager and UserInterface&;
 };
