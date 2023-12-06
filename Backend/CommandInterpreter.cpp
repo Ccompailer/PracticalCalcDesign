@@ -22,7 +22,7 @@ using std::unique_ptr;
 using std::pmr::set;
 using std::string_view;
 
-class CommandInterpreter::CommandInterpreterImp {
+class CommandIneterpreter::CommandInterpreterImp {
 public:
     explicit CommandInterpreterImp() = default; // Use UserInterface& object in the ctor;
 
@@ -32,5 +32,6 @@ private:
     bool IsNum(const string&, double& d);
     void HandlCommand();
     void PrintHelp() const;
+
     //2 private field CommandManager and UserInterface&;
 };
