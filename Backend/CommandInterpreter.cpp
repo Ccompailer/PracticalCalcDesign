@@ -64,9 +64,7 @@ void CommandInterpreter::CommandInterpreterImpl::executeCommand(const string& co
     else
     {
         if( auto c = CommandFactory::Instance().allocateCommand(command) )
-        {
-            handleCommand( std::move(c) );
-        }
+            handleCommand( std::move(c) )
         else
         {
             auto t = std::format("Command {} is not a known command", command);
@@ -80,9 +78,7 @@ void CommandInterpreter::CommandInterpreterImpl::executeCommand(const string& co
 void CommandInterpreter::CommandInterpreterImpl::handleCommand(CommandPtr c)
 {
     try
-    {
         manager_.executeCommand( std::move(c) );
-    }
     catch(Exception& e)
     {
         ui_.postMessage( e.what() );
@@ -118,19 +114,14 @@ bool CommandInterpreter::CommandInterpreterImpl::isNum(const string& s, double& 
     bool isNumber{ std::regex_match(s, dpRegex) };
 
     if(isNumber)
-    {
         d = std::stod(s);
-    }
+
 
     return isNumber;
 }
 
 void CommandInterpreter::commandEntered(const string& command)
-{
     pimpl_->executeCommand(command);
-
-    return;
-}
 
 CommandInterpreter::CommandInterpreter(UserInterface& ui)
         : pimpl_{ std::make_unique<CommandInterpreterImpl>(ui) }

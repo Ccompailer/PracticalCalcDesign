@@ -9,14 +9,15 @@ import CalcUtilities;
 
 using std::string;
 
-class CommandInterpreter {
-    class CommandInterpreterImp;
+class CommandInterpreter
+{
+    class CommandInterpreterImpl;
 
 public:
-    explicit CommandInterpreter() = default; // Need impl this ctor with UserInterface& object
-    ~CommandInterpreter() = default;
+    explicit CommandInterpreter();
+    ~CommandInterpreter();
 
-    void CommandEntered(const string& command);
+    void commandEntered(const string& command);
 
 private:
     CommandInterpreter(const CommandInterpreter&) = delete;
@@ -24,5 +25,6 @@ private:
     CommandInterpreter& operator=(const CommandInterpreter&) = delete;
     CommandInterpreter& operator=(CommandInterpreter&&) = delete;
 
-    std::unique_ptr<CommandInterpreterImp> _pimp;
+
+    std::unique_ptr<CommandInterpreterImpl> pimpl_;
 };
