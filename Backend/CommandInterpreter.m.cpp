@@ -9,22 +9,28 @@ import CalcUtilities;
 
 using std::string;
 
-class CommandInterpreter
-{
-    class CommandInterpreterImpl;
+export namespace Calculator {
 
-public:
-    explicit CommandInterpreter();
-    ~CommandInterpreter();
+    class CommandInterpreter {
+         class CommandInterpreterImpl;
 
-    void commandEntered(const string& command);
+    public:
+        explicit CommandInterpreter();
 
-private:
-    CommandInterpreter(const CommandInterpreter&) = delete;
-    CommandInterpreter(CommandInterpreter&&) = delete;
-    CommandInterpreter& operator=(const CommandInterpreter&) = delete;
-    CommandInterpreter& operator=(CommandInterpreter&&) = delete;
+        ~CommandInterpreter();
+
+        void commandEntered(const string &command);
+
+    private:
+        CommandInterpreter(const CommandInterpreter &) = delete;
+
+        CommandInterpreter(CommandInterpreter &&) = delete;
+
+        CommandInterpreter &operator=(const CommandInterpreter &) = delete;
+
+        CommandInterpreter &operator=(CommandInterpreter &&) = delete;
 
 
-    std::unique_ptr<CommandInterpreterImpl> pimpl_;
-};
+        std::unique_ptr<CommandInterpreterImpl> pimpl_;
+    };
+}

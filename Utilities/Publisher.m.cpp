@@ -25,132 +25,137 @@ using std::unordered_map;
 namespace views = std::views;
 namespace ranges = std::ranges;
 
-export class Publisher
-{
-    using ObserversList = unordered_map<string, unique_ptr<Observer>>;
-    using Events = unordered_map<string, ObserversList>;
+namespace Calculator {
 
-public:
-    Publisher() = default;
+    export class Publisher {
+        using ObserversList = unordered_map<string, unique_ptr<Observer>>;
+        using Events = unordered_map<string, ObserversList>;
 
-    void Attach(
-        const string& eventName,
-        unique_ptr<Observer> observer);
+    public:
+        Publisher() = default;
 
-    unique_ptr<Observer> Detach(
-        const string& eventName,
-        const string& observerName);
+        void Attach(
+                const string &eventName,
+                unique_ptr<Observer> observer);
 
-    set<string> ListEvents() const;
-    set<string> ListEventObservers(const string& eventName) const;
+        unique_ptr<Observer> Detach(
+                const string &eventName,
+                const string &observerName);
 
-protected:
-    void Raise(const string& eventName) const;
-    void Raise(const string& eventName, any data) const;
-    void RegisterEvent(const string& eventName);
-    void RegisterEvents(const vector<string> eventNames);
+        set<string> ListEvents() const;
 
-private:
-    Events::const_iterator FindChackedEvent(const string& eventName) const;
-    Events::iterator FindChackedEvent(const string& eventName);
+        set<string> ListEventObservers(const string &eventName) const;
 
-    Events _events;
-};
+    protected:
+        void Raise(const string &eventName) const;
 
-Publisher::Events::const_iterator Publisher::FindChackedEvent(const string& eventName) const {
-    auto ev = _events.find(eventName);
+        void Raise(const string &eventName, any data) const;
 
-    if(ev == _events.end())
-    {
-        throw Exception {
-            std::format("Publisher doesn't support this event '{}'", eventName)
-        };
+        void RegisterEvent(const string &eventName);
+
+        void RegisterEvents(const vector<string> eventNames);
+
+    private:
+        Events::const_iterator FindChackedEvent(const string &eventName) const;
+
+        Events::iterator FindChackedEvent(const string &eventName);
+
+        Events _events;
+    };
+
+    Publisher::Events::const_iterator Publisher::FindChackedEvent(const string &eventName) const {
+        auto ev = _events.find(eventName);
+
+        if (ev == _events.end()) {
+            throw Exception{
+                    std::format("Publisher doesn't support this event '{}'", eventName)
+            };
+        }
+        return ev;
     }
-    return ev;
-}
 
-Publisher::Events::iterator Publisher::FindChackedEvent(const string& eventName) {
-    auto ev = _events.find(eventName);
+    Publisher::Events::iterator Publisher::FindChackedEvent(const string &eventName) {
+        auto ev = _events.find(eventName);
 
-    if(ev == _events.end())
-    {
-        throw Exception {
-                std::format("Publisher doesn't support this event '{}'", eventName)
-        };
+        if (ev == _events.end()) {
+            throw Exception{
+                    std::format("Publisher doesn't support this event '{}'", eventName)
+            };
+        }
+        return ev;
     }
-    return ev;
-}
 
-void Publisher::Attach(
-    const string& eventName,
-    unique_ptr<Observer> observer
-) {
-    auto& obsList = FindChackedEvent(eventName)->second;
+    void Publisher::Attach(
+            const string &eventName,
+            unique_ptr<Observer> observer
+    ) {
+        auto &obsList = FindChackedEvent(eventName)->second;
 
-    if(obsList.contains(observer->Name()))
-        throw Exception("Observer already attached to publisher");
+        if (obsList.contains(observer->Name()))
+            throw Exception("Observer already attached to publisher");
 
-    obsList.insert(std::pair(observer->Name(), std::move(observer)));
-}
+        obsList.insert(std::pair(observer->Name(), std::move(observer)));
+    }
 
-unique_ptr<Observer> Publisher::Detach(
-    const string& eventName,
-    const string& observerName
-) {
-    auto& obsList = FindChackedEvent(eventName)->second;
-    auto observ = obsList.find(observerName);
+    unique_ptr<Observer> Publisher::Detach(
+            const string &eventName,
+            const string &observerName
+    ) {
+        auto &obsList = FindChackedEvent(eventName)->second;
+        auto observ = obsList.find(observerName);
 
-    if(observ == obsList.end())
-        throw Exception("Cannot detach observer because observer not found");
+        if (observ == obsList.end())
+            throw Exception("Cannot detach observer because observer not found");
 
-    auto temp = std::move(observ->second);
+        auto temp = std::move(observ->second);
 
-    obsList.erase(observ);
-    return temp;
-}
+        obsList.erase(observ);
+        return temp;
+    }
 
-void Publisher::Raise(const string& eventName) const {
-    Raise(eventName, any{});
-}
+    void Publisher::Raise(const string &eventName) const {
+        Raise(eventName, any{});
+    }
 
-void Publisher::Raise(const string& eventName, any data) const {
-    const auto& obsList = FindChackedEvent(eventName)->second;
-    ranges::for_each(
-        views::values(obsList),
-        [data](const auto& v){ v->Notify(data); }
-    );
-}
+    void Publisher::Raise(const string &eventName, any data) const {
+        const auto &obsList = FindChackedEvent(eventName)->second;
+        ranges::for_each(
+                views::values(obsList),
+                [data](const auto &v) { v->Notify(data); }
+        );
+    }
 
-void Publisher::RegisterEvent(const string& eventName) {
-    if(_events.contains(eventName))
+    void Publisher::RegisterEvent(const string &eventName) {
+        if (_events.contains(eventName))
             throw Exception("Event already registered");
 
-    _events[eventName] = ObserversList{};
-}
+        _events[eventName] = ObserversList{};
+    }
 
-void Publisher::RegisterEvents(const vector<string> eventNames) {
-    ranges::for_each(
-        eventNames,
-        [this](const auto& i){ RegisterEvent(i); }
-    );
-}
+    void Publisher::RegisterEvents(const vector<string> eventNames) {
+        ranges::for_each(
+                eventNames,
+                [this](const auto &i) { RegisterEvent(i); }
+        );
+    }
 
-set<string> Publisher::ListEvents() const {
-    set<string> temp;
-    ranges::for_each(
-        _events,
-        [&temp](const auto& i){ temp.insert(i.first); }
-    );
-    return temp;
-}
+    set<string> Publisher::ListEvents() const {
+        set<string> temp;
+        ranges::for_each(
+                _events,
+                [&temp](const auto &i) { temp.insert(i.first); }
+        );
+        return temp;
+    }
 
-set<string> Publisher::ListEventObservers(const string &eventName) const {
-    auto ev = FindChackedEvent(eventName);
-    set<string> temp;
+    set<string> Publisher::ListEventObservers(const string &eventName) const {
+        auto ev = FindChackedEvent(eventName);
+        set<string> temp;
 
-    ranges::for_each(
-        ev->second | views::keys,
-        [&temp](const auto& k){ temp.insert(k); }
-    );
-    return temp;
+        ranges::for_each(
+                ev->second | views::keys,
+                [&temp](const auto &k) { temp.insert(k); }
+        );
+        return temp;
+    }
 }

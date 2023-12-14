@@ -9,23 +9,27 @@ using std::string;
 using std::any;
 using std::string_view;
 
-export class Observer
-{
-public:
-    explicit Observer(string_view name);
-    virtual ~Observer() = default;
+namespace Calculator {
 
-    void Notify(const any& data);
-    const string& Name() const { return _observerName; }
+    export class Observer {
+    public:
+        explicit Observer(string_view name);
 
-private:
-    virtual  void NotifyImpl(const any& data) = 0;
+        virtual ~Observer() = default;
 
-    string _observerName;
-};
+        void Notify(const any &data);
 
-Observer::Observer(std::string_view name) : _observerName(name) { }
+        const string &Name() const { return _observerName; }
 
-void Observer::Notify(const std::any& data) {
-    NotifyImpl(data);
+    private:
+        virtual void NotifyImpl(const any &data) = 0;
+
+        string _observerName;
+    };
+
+    Observer::Observer(std::string_view name) : _observerName(name) {}
+
+    void Observer::Notify(const std::any &data) {
+        NotifyImpl(data);
+    }
 }

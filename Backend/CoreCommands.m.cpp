@@ -22,32 +22,33 @@ using std::string;
 #define CLONE(X) X* cloneImp() const override { return new X { *this }; }
 #define HELP(X) const char* helpMessageImp() const noexcept override { return X; }
 
+namespace {
 
-double eps = 1e-12;
+    using namespace Calculator;
 
-bool TopOfStackIsBetween(double lb, double ub) {
-    assert(lb <= ub);
+    double eps = 1e-12;
 
-    auto v = Stack::Instance().GetElements(1);
-    auto d = v.back();
+    bool TopOfStackIsBetween(double lb, double ub) {
+        assert(lb <= ub);
 
-    return d >= lb && d <= ub;
-}
+        auto v = Stack::Instance().GetElements(1);
+        auto d = v.back();
 
-bool PassesPowerTest(double y, double x) {
-    if (y == 0 && x < 0)
-        return false;
+        return d >= lb && d <= ub;
+    }
 
-    if (double intPart; y < 0 && std::modf(x, &intPart) != 0.0)
-        return false;
+    bool PassesPowerTest(double y, double x) {
+        if (y == 0 && x < 0)
+            return false;
 
-    return true;
-}
+        if (double intPart; y < 0 && std::modf(x, &intPart) != 0.0)
+            return false;
 
-namespace Calculator {
+        return true;
+    }
 
 
-    export class EnterNumber : public Command {
+    class EnterNumber : public Command {
     public:
         explicit EnterNumber(double d)
                 : Command{}, _number(d) {}
@@ -79,7 +80,7 @@ namespace Calculator {
         double _number;
     };
 
-    export class SwapTopOfStack : public Command {
+    class SwapTopOfStack : public Command {
     public:
         SwapTopOfStack() = default;
 
@@ -113,7 +114,7 @@ namespace Calculator {
         HELP("Swap the top two elements of the stack");
     };
 
-    export class DropTopOfStack : public Command {
+    class DropTopOfStack : public Command {
     public:
         DropTopOfStack() = default;
 
@@ -149,7 +150,7 @@ namespace Calculator {
         double _droppedNumber;
     };
 
-    export class ClearStack : public Command {
+    class ClearStack : public Command {
     public:
         ClearStack() = default;
 
@@ -198,7 +199,7 @@ namespace Calculator {
         std::stack<double> _stack;
     };
 
-    export class Add : public BinaryCommand {
+    class Add : public BinaryCommand {
     public:
         Add() = default;
 
@@ -224,7 +225,7 @@ namespace Calculator {
         HELP("Replace first two elements of the stack with their sum");
     };
 
-    export class Subtract : public BinaryCommand {
+    class Subtract : public BinaryCommand {
     public:
         Subtract() = default;
 
@@ -250,7 +251,7 @@ namespace Calculator {
         HELP("Replace first two elements of the stack with their difference");
     };
 
-    export class Divide : public BinaryCommand {
+    class Divide : public BinaryCommand {
     public:
         Divide() = default;
 
@@ -283,7 +284,7 @@ namespace Calculator {
         HELP("Replace first two elements of the stack with their quotient";)
     };
 
-    export class Power : public BinaryCommand {
+    class Power : public BinaryCommand {
     public:
         Power() = default;
 
@@ -316,7 +317,7 @@ namespace Calculator {
         HELP("Replace first two elements of the stack, y, x, with y^x. Note, x is top of stack");
     };
 
-    export class Root : public BinaryCommand {
+    class Root : public BinaryCommand {
     public:
         Root() = default;
 
@@ -349,7 +350,7 @@ namespace Calculator {
         HELP("Replace first two elements of the stack, y, x, with x root of y. Note, x is top of stack")
     };
 
-    export class Sine : public UnaryCommand {
+    class Sine : public UnaryCommand {
     public:
         Sine() = default;
 
@@ -375,7 +376,7 @@ namespace Calculator {
         HELP("Replace the first element x, on the stack with sin(x). x must be in radians");
     };
 
-    export class Cosine : public UnaryCommand {
+    class Cosine : public UnaryCommand {
     public:
         Cosine() = default;
 
@@ -401,7 +402,7 @@ namespace Calculator {
         HELP("Replace the first element, x, on the stack with cos(x). x must be in radians");
     };
 
-    export class Tangent : public UnaryCommand {
+    class Tangent : public UnaryCommand {
     public:
         Tangent() = default;
 
@@ -441,7 +442,7 @@ namespace Calculator {
         HELP("Replace the first element, x, on the stack with tan(x). x must be in radians");
     };
 
-    export class Arcsine : public UnaryCommand {
+    class Arcsine : public UnaryCommand {
     public:
         Arcsine() = default;
 
@@ -471,7 +472,7 @@ namespace Calculator {
         HELP("Replace the first element, x, on the stack with arcsin(x). Returns result in radians");
     };
 
-    export class Arccosine : public UnaryCommand {
+    class Arccosine : public UnaryCommand {
     public:
         Arccosine() = default;
 
@@ -500,7 +501,7 @@ namespace Calculator {
         HELP("Replace the first element, x, on the stack with arccos(x). Returns result in radians");
     };
 
-    export class Arctangent : public UnaryCommand {
+    class Arctangent : public UnaryCommand {
     public:
         Arctangent() = default;
 
@@ -525,7 +526,7 @@ namespace Calculator {
         HELP("Replace the first element, x, on the stack with arctan(x). Returns result in radians");
     };
 
-    export class Negate : public UnaryCommand {
+    class Negate : public UnaryCommand {
     public:
         Negate() = default;
 
@@ -550,7 +551,7 @@ namespace Calculator {
         HELP("Negates the top number on the stack");
     };
 
-    export class Duplicate : public Command {
+    class Duplicate : public Command {
     public:
         Duplicate() = default;
 
@@ -584,4 +585,5 @@ namespace Calculator {
 
         HELP("Duplicates the top number on the stack");
     };
+
 }

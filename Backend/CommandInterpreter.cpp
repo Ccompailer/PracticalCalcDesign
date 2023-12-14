@@ -22,21 +22,26 @@ using std::unique_ptr;
 using std::pmr::set;
 using std::string_view;
 
-class CommandInterpreter::CommandInterpreterImpl {
-public:
-    explicit CommandInterpreterImpl(UserInterface&ui);
 
-    void executeCommand(const string&command);
+namespace Calculator {
 
-private:
-    bool isNum(const string&, double&d);
+    class CommandInterpreter::CommandInterpreterImpl {
+    public:
+        explicit CommandInterpreterImpl(UserInterface &ui);
 
-    void handleCommand(CommandPtr command);
-    void printHelp() const;
+        void executeCommand(const string &command);
 
-    CommandManager manager_;
-    UserInterface&ui_;
-};
+    private:
+        bool isNum(const string &, double &d);
+
+        void handleCommand(CommandPtr command);
+
+        void printHelp() const;
+
+        CommandManager manager_;
+        UserInterface &ui_;
+    };
+
 
 CommandInterpreter::CommandInterpreterImpl::CommandInterpreterImpl(UserInterface&ui)
     : ui_(ui) {
@@ -114,15 +119,17 @@ bool CommandInterpreter::CommandInterpreterImpl::isNum(const string&s, double&d)
     return isNumber;
 }
 
-void CommandInterpreter::commandEntered(const string& command)
-{
+void CommandInterpreter::commandEntered(const string& command) {
     pimpl_->executeCommand(command);
 
-CommandInterpreter::CommandInterpreter(UserInterface& ui)
-        : pimpl_{ std::make_unique<CommandInterpreterImpl>(ui) }
-{
+    CommandInterpreter::CommandInterpreter(UserInterface & ui)
+    : pimpl_{std::make_unique<CommandInterpreterImpl>(ui)}
+    {
 
-CommandInterpreter::~CommandInterpreter() {
-}
+        CommandInterpreter::~CommandInterpreter()
+        {
+        }
+
+    }
 
 }

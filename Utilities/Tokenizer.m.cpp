@@ -21,7 +21,9 @@ using std::istream;
 namespace ranges = std::ranges;
 namespace views = std::views;
 
-export class Tokenizer
-{
+namespace Calculator {
 
-};
+    export class Tokenizer {
+
+    };
+}

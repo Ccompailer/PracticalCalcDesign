@@ -10,7 +10,7 @@ using std::string_view;
 using std::string;
 using std::unique_ptr;
 
-export namespace CommandModule {
+export namespace Calculator {
 
     class Command {
     public:

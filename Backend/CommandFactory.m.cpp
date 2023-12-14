@@ -19,7 +19,7 @@ using std::string;
 using std::unordered_map;
 using std::set;
 
-namespace CommandModule {
+namespace Calculator {
 
     export class CommandFactory {
     public:
