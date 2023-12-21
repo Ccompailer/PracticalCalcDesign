@@ -3,7 +3,7 @@ module;
 #include <string>
 #include <memory>
 
-export module Calc_CommandDispatcher:CommandInterpreter;
+export module CommandInterpreter;
 
 import CalcUtilities;
 
@@ -12,7 +12,7 @@ using std::string;
 export namespace Calculator {
 
     class CommandInterpreter {
-         class CommandInterpreterImpl;
+        class CommandInterpreterImpl;
 
     public:
         explicit CommandInterpreter();

@@ -77,7 +77,7 @@ namespace Calculator {
         );
     }
 
-    void CommandFactory::RegisterCommand(const std::string &name, CommandModule::CommandPtr ptr) {
+    void CommandFactory::RegisterCommand(const std::string &name, Calculator::CommandPtr ptr) {
         if (HasKey(name)) {
             auto t = std::format("Command {} already registered", name);
             throw Exception{"t"};

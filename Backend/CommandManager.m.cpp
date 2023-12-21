@@ -15,7 +15,7 @@ using std::stack;
 using std::list;
 using std::vector;
 
-namespace CommandModule {
+namespace Calculator {
 
     export class CommandManager {
 
@@ -197,7 +197,7 @@ namespace CommandModule {
         _cur = _undoRedoList.end();
     }
 
-    void CommandManager::UndoRedoListStrategy::ExecuteCommand(CommandModule::CommandPtr ptr) {
+    void CommandManager::UndoRedoListStrategy::ExecuteCommand(CommandPtr ptr) {
         ptr->execute();
 
         Flush();
@@ -237,7 +237,7 @@ namespace CommandModule {
         }
     }
 
-    CommandManager::CommandManager(CommandModule::CommandManager::UndoRedoStrategy st) {
+    CommandManager::CommandManager(CommandManager::UndoRedoStrategy st) {
         switch (st) {
             case UndoRedoStrategy::ListStrategy:
                 _strategy = make_unique<UndoRedoListStrategy>();

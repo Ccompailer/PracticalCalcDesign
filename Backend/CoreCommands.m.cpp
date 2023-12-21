@@ -14,7 +14,7 @@ import CalcBackend_Stack;
 import CalcBackend_Command;
 import CalcUtilities;
 
-using namespace CommandModule;
+
 using namespace Calculator;
 using std::vector;
 using std::string;
@@ -22,9 +22,7 @@ using std::string;
 #define CLONE(X) X* cloneImp() const override { return new X { *this }; }
 #define HELP(X) const char* helpMessageImp() const noexcept override { return X; }
 
-namespace {
-
-    using namespace Calculator;
+export namespace Calculator {
 
     double eps = 1e-12;
 
