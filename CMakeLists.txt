@@ -20,4 +20,6 @@ add_executable(PracticalCalcDesign main.cpp
         Backend/DynamicLoader.m.cpp
         Ui/UserInterface.cpp
         Backend/PosixFactory.cpp
-        Backend/PlatformFactory.m.cpp)
+        Backend/PlatformFactory.m.cpp
+        Backend/PlatformFactory.cpp
+        Backend/PlatformFactory.cpp)

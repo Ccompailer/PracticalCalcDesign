@@ -2,7 +2,7 @@ module;
 
 #include <string>
 
-export module Calc:DynamicLoader;
+export module DynamicLoader;
 
 using std::string;
 
