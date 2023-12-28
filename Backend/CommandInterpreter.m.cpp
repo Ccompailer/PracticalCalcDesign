@@ -6,6 +6,7 @@ module;
 export module CommandInterpreter;
 
 import CalcUtilities;
+import UserInterface;
 
 using std::string;
 
@@ -15,7 +16,7 @@ export namespace Calculator {
         class CommandInterpreterImpl;
 
     public:
-        explicit CommandInterpreter();
+        explicit CommandInterpreter(UserInterface&);
 
         ~CommandInterpreter();
 

@@ -18,6 +18,7 @@ import CalcBackend_Command;
 import CalcBackend_CommandManager;
 import CalcBackend_CommandFactory;
 import CalcUtilities;
+import UserInterface;
 import CalcBackend_CoreCommands;
 
 using std::string;
@@ -30,7 +31,7 @@ namespace Calculator {
 
     class CommandInterpreter::CommandInterpreterImpl {
     public:
-        explicit CommandInterpreterImpl(UserInterface &ui);
+        explicit CommandInterpreterImpl(UserInterface& ui);
 
         void executeCommand(const string &command);
 
@@ -42,7 +43,7 @@ namespace Calculator {
         void printHelp() const;
 
         CommandManager _manager;
-        UserInterface &_ui;
+        UserInterface& _ui;
     };
 
 
@@ -53,7 +54,6 @@ namespace Calculator {
     void CommandInterpreter::CommandInterpreterImpl::executeCommand(const string &command) {
         string_view sv{command};
 
-        // entry of a number simply goes onto the the stack
         if (double d; isNum(command, d))
             _manager.ExecuteCommand(MakeCommandPtr<EnterNumber>(d));
         else if (command == "undo")
@@ -70,7 +70,7 @@ namespace Calculator {
                 handleCommand(std::move(c));
             else {
                 auto t = std::format("Command {} is not a known command", command);
-                _ui.postMessage(t);
+                _ui.PostMessage(t);
             }
         }
     }
@@ -80,7 +80,7 @@ namespace Calculator {
             _manager.ExecuteCommand(std::move(c));
         }
         catch (Exception &e) {
-            _ui.postMessage(e.What());
+            _ui.PostMessage(e.What());
         }
     }
 
@@ -94,7 +94,7 @@ namespace Calculator {
             help += CommandFactory::Instance().HelpMessage(i) + "\n";
         }
 
-        _ui.postMessage(help);
+        _ui.PostMessage(help);
     }
 
     bool CommandInterpreter::CommandInterpreterImpl::isNum(const string &s, double &d) {
