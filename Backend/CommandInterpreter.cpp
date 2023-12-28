@@ -109,7 +109,7 @@ namespace Calculator {
         return isNumber;
     }
 
-    CommandInterpreter::CommandInterpreter() : pimpl_ {std::make_unique<CommandInterpreterImpl>()} {
+    CommandInterpreter::CommandInterpreter(UserInterface& ui) : pimpl_ {std::make_unique<CommandInterpreterImpl>(ui)} {
 
     }
 
