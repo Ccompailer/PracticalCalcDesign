@@ -23,4 +23,5 @@ add_executable(PracticalCalcDesign main.cpp
         Backend/PlatformFactory.m.cpp
         Backend/PlatformFactory.cpp
         Backend/PlatformFactory.cpp
-        Backend/WindowsFactory.m.cpp)
+        Backend/WindowsFactory.m.cpp
+        Backend/WindowsFactory.cpp)
