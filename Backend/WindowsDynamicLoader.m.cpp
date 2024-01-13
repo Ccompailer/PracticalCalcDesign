@@ -6,8 +6,8 @@ module;
 
 export module WindowsDynamicLoader;
 
-import DynamicLoader;
 import CalcUtilities;
+import DynamicLoader;
 
 using std::string;
 using std::vector;
