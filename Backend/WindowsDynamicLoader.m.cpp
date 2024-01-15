@@ -20,7 +20,6 @@ namespace Calculator {
 
     private:
         HINSTANCE _handle;
-
     };
 
     WindowsDynamicLoader::WindowsDynamicLoader()
