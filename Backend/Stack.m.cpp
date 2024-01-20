@@ -14,6 +14,7 @@ using std::vector;
 using std::deque;
 
 namespace Calculator {
+
     export class StackErrorData {
     public:
         enum class ErrorConditions {
