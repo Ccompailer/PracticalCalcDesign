@@ -172,13 +172,9 @@ namespace Calculator {
         UndoRedoListStrategy();
 
         size_t GetRedoSize() const override;
-
         size_t GetUndoSize() const override;
-
         void ExecuteCommand(CommandPtr ptr) override;
-
         void Undo() override;
-
         void Redo() override;
 
     private:
@@ -237,7 +233,7 @@ namespace Calculator {
         }
     }
 
-    CommandManager::CommandManager(CommandManager::UndoRedoStrategy st) {
+    CommandManager::CommandManager(UndoRedoStrategy st) {
         switch (st) {
             case UndoRedoStrategy::ListStrategy:
                 _strategy = make_unique<UndoRedoListStrategy>();

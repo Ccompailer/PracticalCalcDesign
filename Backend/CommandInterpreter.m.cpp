@@ -17,20 +17,14 @@ export namespace Calculator {
 
     public:
         explicit CommandInterpreter(UserInterface&);
-
         ~CommandInterpreter();
-
         void commandEntered(const string &command);
 
     private:
         CommandInterpreter(const CommandInterpreter &) = delete;
-
         CommandInterpreter(CommandInterpreter &&) = delete;
-
         CommandInterpreter &operator=(const CommandInterpreter &) = delete;
-
         CommandInterpreter &operator=(CommandInterpreter &&) = delete;
-
 
         std::unique_ptr<CommandInterpreterImpl> pimpl_;
     };

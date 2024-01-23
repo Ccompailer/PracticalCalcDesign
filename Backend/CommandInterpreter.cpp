@@ -5,11 +5,8 @@ module;
 #include <regex>
 #include <algorithm>
 #include <fstream>
-#include <cassert>
-#include <stack>
 #include <string_view>
 #include <string>
-#include <iterator>
 #include <set>
 
 module CommandInterpreter;
