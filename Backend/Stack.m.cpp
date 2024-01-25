@@ -35,27 +35,17 @@ namespace Calculator {
 
     export class Stack : private Publisher {
     public:
-        static Stack &Instance();
-
+        static Stack& Instance();
         void Push(double, bool suppressChangeEvent = false);
-
         double Pop(bool suppressChangeEvent = false);
-
         void SwapTop();
-
         vector<double> GetElements(size_t n) const;
-
         void GetElements(size_t n, vector<double> &) const;
-
         using Publisher::Attach;
         using Publisher::Detach;
-
         size_t Size() const { return _stack.size(); }
-
         void Clear();
-
         static string StackChanged();
-
         static string StackError();
 
     private:
