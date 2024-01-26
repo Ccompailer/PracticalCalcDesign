@@ -50,17 +50,11 @@ namespace Calculator {
 
     private:
         Stack();
-
         ~Stack() = default;
-
         Stack(const Stack &) = delete;
-
         Stack(Stack &&) = delete;
-
         Stack &operator=(Stack &) = delete;
-
         Stack &operator=(Stack &&) = delete;
-
         deque<double> _stack;
     };
 
